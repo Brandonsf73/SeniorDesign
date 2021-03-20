@@ -38,20 +38,20 @@ void setup() {
     pinMode(MOTOR2_PWM_CCW, OUTPUT);
     pinMode(STEPPER_PWM_CW, OUTPUT);
     pinMode(STEPPER_PWM_CCW, OUTPUT);
-
-    //Setup the Sensor echo pins as output and the triggers as input
-    pinMode(SENSOR0_ECHO, OUTPUT);
-    pinMode(SENSOR0_TRIG, INPUT);
-    pinMode(SENSOR1_ECHO, OUTPUT);
-    pinMode(SENSOR1_TRIG, INPUT);
-    pinMode(SENSOR2_ECHO, OUTPUT);
-    pinMode(SENSOR2_TRIG, INPUT);
-    pinMode(SENSOR3_ECHO, OUTPUT);
-    pinMode(SENSOR3_TRIG, INPUT);
-    pinMode(SENSOR4_ECHO, OUTPUT);
-    pinMode(SENSOR4_TRIG, INPUT);
-    pinMode(SENSOR5_ECHO, OUTPUT);
-    pinMode(SENSOR5_TRIG, INPUT);
+   
+    //Setup the Sensor echo pins as input and the triggers as output
+    pinMode(SENSOR0_ECHO, INPUT);
+    pinMode(SENSOR0_TRIG, OUTPUT);
+    pinMode(SENSOR1_ECHO, INPUT);
+    pinMode(SENSOR1_TRIG, OUTPUT);
+    pinMode(SENSOR2_ECHO, INPUT);
+    pinMode(SENSOR2_TRIG, OUTPUT);
+    pinMode(SENSOR3_ECHO, INPUT);
+    pinMode(SENSOR3_TRIG, OUTPUT);
+    pinMode(SENSOR4_ECHO, INPUT);
+    pinMode(SENSOR4_TRIG, OUTPUT);
+    pinMode(SENSOR5_ECHO, INPUT);
+    pinMode(SENSOR5_TRIG, OUTPUT);
   
     Serial.println("App Started");
   
@@ -62,6 +62,7 @@ void setup() {
 }
 
 void loop() {
+    SensorsMeasure();
     //Check sensors, if we are approaching a wall stop
     if(SensorsDetectWall())
     {
@@ -93,9 +94,38 @@ void loop() {
     delay(50);
 }
 
+//Measures the distance from the sensors
+int SensorsMeasure()
+{
+  float duration, distance;
+  
+  digitalWrite(SENSOR0_TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(SENSOR0_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(SENSOR0_TRIG, LOW);
+
+  duration = pulseIn(SENSOR0_ECHO, HIGH);
+  distance = (duration * .0343)/2;
+
+  Serial.print("Distance: ");
+  Serial.println(distance);
+  delay(3);
+
+  if (distance < 35)
+  {
+    
+  }
+  return distance;
+}
+
 // Stop the motors if they start to detect a wall
 bool SensorsDetectWall()
 {
+    if (SensorsMeasure() < 35)
+    {
+      return true;
+    }
     return false;
 }
 
