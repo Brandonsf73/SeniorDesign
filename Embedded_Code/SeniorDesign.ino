@@ -58,8 +58,12 @@ void setup() {
     pinMode(SENSOR5_ECHO, INPUT);
     pinMode(SENSOR5_TRIG, OUTPUT);
     
-    //Setup the button
-    pinMode(BUTTON, INPUT);
+    //Setup the button;
+    pinMode(BUTTON, OUTPUT); // Generally, in push-button we take INPUT as a parameter but here we take OUTPUT because ANALOG PIN 
+
+    digitalWrite(BUTTON, HIGH); // Make button condition HIGH
+
+
   
     Serial.println("App Started");
   
@@ -204,37 +208,12 @@ void ReadJoystick()
 //read button
 void ReadButton()
 {
-  int buttonState = LOW; //this variable tracks the state of the button, low if not pressed, high if pressed
-  int motorState = -1; //this variable tracks the state of the motor, negative if off, positive if on
-
-  long lastDebounceTime = 0;  // the last time the output pin was toggled
-  long debounceDelay = 50;    // the debounce time; increase if the output flickers
-  int reading = digitalRead(BUTTON);
-  Serial.println(reading);
-
-   //sample the state of the button - is it pressed or not?
-  buttonState = digitalRead(BUTTON);
-
-  //filter out any noise by setting a time buffer
-  if ( (millis() - lastDebounceTime) > debounceDelay) {
-
-    //if the button has been pressed, lets toggle the motor from "off to on" or "on to off"
-    if ( (buttonState == HIGH) && (motorState < 0) ) {
-
-      SetMotorForwardSpeed(); //turn LED on
-      Serial.println("Moving Forward");
-      motorState = -motorState; //now the motor is on, we need to change the state
-      lastDebounceTime = millis(); //set the current time
-    }
-    else if ( (buttonState == HIGH) && (motorState > 0) ) {
-
+  if(digitalRead(BUTTON) == LOW)  // If button pressed
+  {
+    SetMotorForwardSpeed();
+  }
+  else
       SetMotorIdle();
-      Serial.println("Stopping");
-      motorState = -motorState; //now the motor is off, we need to change the state
-      lastDebounceTime = millis(); //set the current time
-    }
-
-  }//close if(time buffer);
 
 }
 
