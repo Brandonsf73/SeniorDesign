@@ -25,6 +25,11 @@ void SetMotorReveseSpeed();
 void SetMotorIdle();
 bool SetMotorTurning();
 
+//boolean variables for distance sensors
+bool LeftSensor = false;
+bool CenterSensor = false;
+bool RightSensor = false;
+bool BackSensor = false;
 
 void setup() {
     // put your setup code here, to run once:
@@ -52,6 +57,9 @@ void setup() {
     pinMode(SENSOR4_TRIG, OUTPUT);
     pinMode(SENSOR5_ECHO, INPUT);
     pinMode(SENSOR5_TRIG, OUTPUT);
+    
+    //Setup the button
+    pinMode(BUTTON, INPUT);
   
     Serial.println("App Started");
   
@@ -62,11 +70,26 @@ void setup() {
 }
 
 void loop() {
-    SensorsMeasure();
     //Check sensors, if we are approaching a wall stop
-    if(SensorsDetectWall())
+    LeftSensor = SensorsDetectWall(SENSOR0_TRIG, SENSOR0_ECHO);
+    CenterSensor = SensorsDetectWall(SENSOR1_TRIG, SENSOR1_ECHO);
+    RightSensor = SensorsDetectWall(SENSOR2_TRIG, SENSOR2_ECHO);
+    BackSensor = SensorsDetectWall(SENSOR3_TRIG, SENSOR3_ECHO);
+   
+    if(LeftSensor)
     {
-        return;
+      SetMotorIdle();
+      return;
+    }
+    if(CenterSensor)
+    {
+      SetMotorIdle();
+      return;
+    }
+    if(RightSensor)
+    {
+      SetMotorIdle();
+      return;
     }
 
     // Attempt to read in values from bluetooth
@@ -89,44 +112,33 @@ void loop() {
     {
         Serial.println("Reading Joysticks");
         ReadJoystick();
+        Serial.println("Reading Button");
+        ReadButton();
     }
     // Let everything breath for a moment
     delay(50);
 }
 
-//Measures the distance from the sensors
-int SensorsMeasure()
-{
-  float duration, distance;
-  
-  digitalWrite(SENSOR0_TRIG, LOW);
-  delayMicroseconds(2);
-  digitalWrite(SENSOR0_TRIG, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(SENSOR0_TRIG, LOW);
-
-  duration = pulseIn(SENSOR0_ECHO, HIGH);
-  distance = (duration * .0343)/2;
-
-  Serial.print("Distance: ");
-  Serial.println(distance);
-  delay(3);
-
-  if (distance < 35)
-  {
-    
-  }
-  return distance;
-}
 
 // Stop the motors if they start to detect a wall
 bool SensorsDetectWall()
 {
-    if (SensorsMeasure() < 35)
-    {
-      return true;
-    }
-    return false;
+  float duration, sensorDistance;
+  
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  sensorDistance = (duration * .0343)/2;
+  Serial.print("Distance: ");
+  Serial.println(sensorDistance);
+  if (sensorDistance < Distance)
+  {
+    return true;
+  }
+  return false;
 }
 
 // Read in the bluetooth commands and set the bluetooth values as needed
@@ -189,6 +201,43 @@ void ReadJoystick()
     // TODO
 }
 
+//read button
+void ReadButton()
+{
+  int buttonState = LOW; //this variable tracks the state of the button, low if not pressed, high if pressed
+  int motorState = -1; //this variable tracks the state of the motor, negative if off, positive if on
+
+  long lastDebounceTime = 0;  // the last time the output pin was toggled
+  long debounceDelay = 50;    // the debounce time; increase if the output flickers
+  int reading = digitalRead(BUTTON);
+  Serial.println(reading);
+
+   //sample the state of the button - is it pressed or not?
+  buttonState = digitalRead(BUTTON);
+
+  //filter out any noise by setting a time buffer
+  if ( (millis() - lastDebounceTime) > debounceDelay) {
+
+    //if the button has been pressed, lets toggle the motor from "off to on" or "on to off"
+    if ( (buttonState == HIGH) && (motorState < 0) ) {
+
+      SetMotorForwardSpeed(); //turn LED on
+      Serial.println("Moving Forward");
+      motorState = -motorState; //now the motor is on, we need to change the state
+      lastDebounceTime = millis(); //set the current time
+    }
+    else if ( (buttonState == HIGH) && (motorState > 0) ) {
+
+      SetMotorIdle();
+      Serial.println("Stopping");
+      motorState = -motorState; //now the motor is off, we need to change the state
+      lastDebounceTime = millis(); //set the current time
+    }
+
+  }//close if(time buffer);
+
+}
+
 // Increase the ForwardSpeed speed of both of the motors and decrease their ReveseSpeed speed
 void SetMotorForwardSpeed()
 {
@@ -216,8 +265,8 @@ void SetMotorReveseSpeed()
 // Slowly break the motors, this prevents sudden breaking
 void SetMotorIdle()
 {
-    ForwardSpeed = lim_min(0, (ForwardSpeed-BreakingPower));
-    ReveseSpeed = lim_min(0, (ReveseSpeed-BreakingPower));
+    ForwardSpeed = lim_max(0, (ForwardSpeed-BreakingPower));
+    ReveseSpeed = lim_max(0, (ReveseSpeed-BreakingPower));
 
     analogWrite(MOTOR1_PWM_CW, ForwardSpeed);
     analogWrite(MOTOR2_PWM_CCW, ForwardSpeed);   
