@@ -33,7 +33,7 @@
 #define SENSOR5_TRIG        41
 
 // Push Button Pins
-#define BUTTON 22
+#define BUTTON A0
 
 // Joystick Threshold values
 // These are the thresholds the joystick has to be moved beyond
