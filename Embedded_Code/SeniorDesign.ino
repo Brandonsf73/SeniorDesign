@@ -211,10 +211,12 @@ void ReadButton()
   if(digitalRead(BUTTON) == LOW)  // If button pressed
   {
     SetMotorForwardSpeed();
+    Serial.println("Moving Forward");
   }
   else
+  {
       SetMotorIdle();
-
+      Serial.println("Stopping");
 }
 
 // Increase the ForwardSpeed speed of both of the motors and decrease their ReveseSpeed speed
