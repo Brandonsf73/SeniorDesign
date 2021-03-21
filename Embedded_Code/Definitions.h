@@ -32,6 +32,9 @@
 #define SENSOR5_ECHO        40
 #define SENSOR5_TRIG        41
 
+// Push Button Pins
+#define BUTTON 22
+
 // Joystick Threshold values
 // These are the thresholds the joystick has to be moved beyond
 #define JOYSTICK_HIGH_THRES 550
@@ -54,3 +57,4 @@ typedef enum {
 int Accleration = 2;
 int Deccleration = 2*Accleration;
 int BreakingPower = 2*Deccleration;
+int Distance = 35;
