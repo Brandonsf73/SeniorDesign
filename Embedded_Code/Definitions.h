@@ -39,6 +39,8 @@
 // These are the thresholds the joystick has to be moved beyond
 #define JOYSTICK_HIGH_THRES 550
 #define JOYSTICK_LOW_THRES  480
+#define JOYSTICK_TURN_LEFT 250
+#define JOYSTICK_TURN_RIGHT 850
 
 // How long we should not read joystick after we got a bluetooth command
 #define BLUETOOTH_HOLD_TIME 50
@@ -50,11 +52,17 @@ typedef enum {
     Left = 'L',
     Right = 'R',
     Stop = 'S',
-    Start = 'N'
+    Start = 'N',
 } bluetoothCmd;
+
+typedef enum {
+    LeftCmd,
+    RightCmd,
+} turnCmd;
 
 // Vairables for the car
 int Accleration = 2;
 int Deccleration = 2*Accleration;
 int BreakingPower = 2*Deccleration;
 int Distance = 35;
+int MaxSpeed = 50;
