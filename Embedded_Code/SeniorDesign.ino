@@ -85,7 +85,7 @@ void loop() {
         return;
     }
     //Check sensors, if we are approaching a wall stop
-    LeftSensor = SensorsDetectWall(SENSOR0_TRIG, SENSOR0_ECHO);
+    /*LeftSensor = SensorsDetectWall(SENSOR0_TRIG, SENSOR0_ECHO);
     CenterSensor = SensorsDetectWall(SENSOR1_TRIG, SENSOR1_ECHO);
     RightSensor = SensorsDetectWall(SENSOR2_TRIG, SENSOR2_ECHO);
     BackSensor = SensorsDetectWall(SENSOR3_TRIG, SENSOR3_ECHO);
@@ -104,7 +104,7 @@ void loop() {
     {
       SetMotorIdle();
       return;
-    }
+    }*/
 
     // Attempt to read in values from bluetooth
     BluetoothControls();
@@ -231,18 +231,17 @@ void ReadButton()
     if(digitalRead(BUTTON) == LOW)  // If button pressed
     {
       SetMotorForwardSpeed();
-      Serial.println("Moving Forward");
     }
     else
     {
         SetMotorIdle();
-        Serial.println("Stopping");
     }
 }
 
 // Increase the ForwardSpeed speed of both of the motors and decrease their ReveseSpeed speed
 void SetMotorForwardSpeed()
 {
+    Serial.println("Forwarding");
     ForwardSpeed = lim_min(MaxSpeed, ForwardSpeed+Accleration);
     ReveseSpeed = lim_max(0, ReveseSpeed-Deccleration);
 
@@ -255,6 +254,7 @@ void SetMotorForwardSpeed()
 // Increase the ReveseSpeed speed of both of the motors and decrease their ForwardSpeed speed
 void SetMotorReveseSpeed()
 {
+    Serial.println("Revering");
     ReveseSpeed = lim_min(MaxSpeed, ReveseSpeed+Accleration);
     ForwardSpeed = lim_max(0, ForwardSpeed-Deccleration);
     
@@ -267,6 +267,7 @@ void SetMotorReveseSpeed()
 // Slowly break the motors, this prevents sudden breaking
 void SetMotorIdle()
 {
+    Serial.println("Motor idling");
     ForwardSpeed = lim_max(0, (ForwardSpeed-Deccleration));
     ReveseSpeed = lim_max(0, (ReveseSpeed-Deccleration));
 
