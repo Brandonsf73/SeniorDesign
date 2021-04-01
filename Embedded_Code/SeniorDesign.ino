@@ -107,7 +107,7 @@ void loop() {
     if( !BluetoothControls() )
     {
         Serial.println("Reading Analog Input");
-        //ReadJoystick();
+        ReadJoystick();
         //ReadButton();
     }
     
@@ -205,19 +205,17 @@ void ReadButton()
     if(digitalRead(BUTTON) == LOW)  // If button pressed
     {
       SetMotorForwardSpeed();
-      Serial.println("Moving Forward");
     }
     else
     {
         SetMotorIdle();
-        Serial.println("Stopping");
     }
 }
 
 // Increase the ForwardSpeed speed of both of the motors and decrease their ReverseSpeed speed
 void SetMotorForwardSpeed()
 {
-    Serial.println("Motor Accelerating");
+    Serial.println("Forwarding");
     ForwardSpeed = lim_min(MaxSpeed, ForwardSpeed+Accleration);
     ReverseSpeed = lim_max(0, ReverseSpeed-Deccleration);
 
@@ -243,7 +241,7 @@ void SetMotorReverseSpeed()
 // Slowly break the motors, this prevents sudden breaking
 void SetMotorIdle()
 {
-    Serial.println("Motor Idling");
+    Serial.println("Motor idling");
     ForwardSpeed = lim_max(0, (ForwardSpeed-Deccleration));
     ReverseSpeed = lim_max(0, (ReverseSpeed-Deccleration));
 

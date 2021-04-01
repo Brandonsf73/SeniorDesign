@@ -3,8 +3,8 @@
 #define lim_max(a,b) (((a) < (b)) ? (b) : (a))
 
 // Bluetooth Pins
-#define BLUETOOTH_TX        10
-#define BLUETOOTH_RX        11
+#define BLUETOOTH_TX        11
+#define BLUETOOTH_RX        10
 
 // Analog Pins
 #define JOYSTICK_XPOS       A0
@@ -66,4 +66,4 @@ int Accleration = 2;
 int Deccleration = 2*Accleration;
 int BreakingPower = 2*Deccleration;
 int Distance = 35;
-int MaxSpeed = 50;
+int MaxSpeed = 255;
