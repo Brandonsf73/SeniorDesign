@@ -9,14 +9,15 @@
 // Analog Pins
 #define JOYSTICK_XPOS       A0
 #define JOYSTICK_YPOS       A1
+#define BUTTON              A0
 
 // PWM pins
 #define MOTOR1_PWM_CW       2
 #define MOTOR1_PWM_CCW      3
 #define MOTOR2_PWM_CW       4
 #define MOTOR2_PWM_CCW      5
-#define STEPPER_PWM_CW      6
-#define STEPPER_PWM_CCW     7
+#define STEPPER_DIR         49
+#define STEPPER_PUL         45
 
 // Sensor pins
 #define SENSOR0_ECHO        30
@@ -39,11 +40,11 @@
 // These are the thresholds the joystick has to be moved beyond
 #define JOYSTICK_HIGH_THRES 550
 #define JOYSTICK_LOW_THRES  480
-#define JOYSTICK_TURN_LEFT 250
+#define JOYSTICK_TURN_LEFT  250
 #define JOYSTICK_TURN_RIGHT 850
 
-// How long we should not read joystick after we got a bluetooth command
-#define BLUETOOTH_HOLD_TIME 50
+// Turning limit for the wheels, because the motor will sheer them off
+#define TURN_LIMIT          40
 
 // Bluetooth commands that we can recieve
 typedef enum {
@@ -56,8 +57,8 @@ typedef enum {
 } bluetoothCmd;
 
 typedef enum {
-    LeftCmd,
-    RightCmd,
+    LeftCmd=0,
+    RightCmd=1,
 } turnCmd;
 
 // Vairables for the car
