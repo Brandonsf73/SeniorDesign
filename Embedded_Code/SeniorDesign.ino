@@ -162,11 +162,11 @@ void loop() {
       }
     }
 
-    if(BackSensor)
+   /* if(BackSensor)
     {
       reverseAllowed = false;
       SetMotorReverseIdle();
-    }
+    }*/
 
     // Attempt to read in values from bluetooth
     // If we get nothing from bluetooth use the joystick/button as input
