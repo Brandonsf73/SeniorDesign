@@ -38,10 +38,10 @@
 
 // Joystick Threshold values
 // These are the thresholds the joystick has to be moved beyond
-#define JOYSTICK_HIGH_THRES 700
+#define JOYSTICK_HIGH_THRES 800
 #define JOYSTICK_LOW_THRES  300
-#define JOYSTICK_TURN_LEFT  120
-#define JOYSTICK_TURN_RIGHT 1000
+#define JOYSTICK_TURN_LEFT  200
+#define JOYSTICK_TURN_RIGHT 800
 
 // Turning limit for the wheels, because the motor will sheer them off
 #define TURN_LIMIT          40
@@ -68,8 +68,9 @@ typedef enum {
 } turnCmd;
 
 // Vairables for the car
-int Accleration = 2;
+int Accleration = 4;
 int Deccleration = 2*Accleration;
-int BreakingPower = 2*Deccleration;
+int BreakingPower = 4*Deccleration;
 int Distance = 35;
-int MaxSpeed = 255;
+int MaxSpeed = 200;
+int MaxTurningSpeed = 255;
