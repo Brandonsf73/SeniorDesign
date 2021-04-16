@@ -26,12 +26,12 @@
 #define SENSOR1_TRIG        33
 #define SENSOR2_ECHO        34
 #define SENSOR2_TRIG        35
-#define SENSOR3_ECHO        36
-#define SENSOR3_TRIG        37
-#define SENSOR4_ECHO        38
-#define SENSOR4_TRIG        39
-#define SENSOR5_ECHO        40
-#define SENSOR5_TRIG        41
+#define SENSOR3_ECHO        36 //back
+#define SENSOR3_TRIG        37 //back
+#define SENSOR4_ECHO        38 //left - top
+#define SENSOR4_TRIG        39 //left - top
+#define SENSOR5_ECHO        40 //right - top
+#define SENSOR5_TRIG        41 //right - top
 
 // Push Button Pins
 #define BUTTON A0
