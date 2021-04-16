@@ -47,7 +47,7 @@
 #define TURN_LIMIT          40
 
 //stopping distance
-#define DISTANCE            60
+#define DISTANCE            75
 
 //car length
 #define CAR_LENGTH          150
