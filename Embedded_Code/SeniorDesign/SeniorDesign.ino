@@ -66,6 +66,9 @@ void setup() {
     pinMode(SENSOR3_TRIG, OUTPUT);
     pinMode(SENSOR4_ECHO, INPUT);
     pinMode(SENSOR4_TRIG, OUTPUT);
+    pinMode(SENSOR5_ECHO, INPUT);
+    pinMode(SENSOR5_TRIG, OUTPUT);
+  
   
     Serial.println("App Started");
   
@@ -91,6 +94,8 @@ void loop() {
     CenterSensor = SensorsDetectWall(SENSOR1_TRIG, SENSOR1_ECHO);
     RightSensor = SensorsDetectWall(SENSOR2_TRIG, SENSOR2_ECHO);
     BackSensor = SensorsDetectWall(SENSOR3_TRIG, SENSOR3_ECHO);
+    CenterLeftSensor = SensorsDetectWall(SENSOR4_TRIG, SENSOR4_ECHO);
+    CenterRightSensor = SensorsDetectWall(SESNOR5_TRIG, SENSOR5_ECHO);
     bool RightSensorTurn = SensorsTurn(SENSOR2_TRIG, SENSOR2_ECHO);
     bool LeftSensorTurn = SensorsTurn(SENSOR0_TRIG, SENSOR0_ECHO);
 
@@ -100,7 +105,7 @@ void loop() {
     reverseAllow = true;
 
     // Check the sensor data that we read in
-    if(CenterSensor) //obstacle in front of car
+    if((CenterSensor) || (CenterLeftSensor) || (CenterRightSensor)) //obstacle in front of car
     {
         forwardAllow = false;
         leftAllow = false;
