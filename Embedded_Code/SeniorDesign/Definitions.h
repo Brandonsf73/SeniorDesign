@@ -38,19 +38,22 @@
 
 // Joystick Threshold values
 // These are the thresholds the joystick has to be moved beyond
-#define JOYSTICK_HIGH_THRES 800
-#define JOYSTICK_LOW_THRES  300
-#define JOYSTICK_TURN_LEFT  200
-#define JOYSTICK_TURN_RIGHT 800
+#define JOYSTICK_HIGH_THRES 650
+#define JOYSTICK_LOW_THRES  400
+#define JOYSTICK_TURN_LEFT  425
+#define JOYSTICK_TURN_RIGHT 600
 
 // Turning limit for the wheels, because the motor will sheer them off
 #define TURN_LIMIT          40
 
 //stopping distance
-#define DISTANCE            75
+#define DISTANCE            100
+#define BACK_DIST           200
 
 //car length
-#define CAR_LENGTH          150
+#define CAR_LENGTH          80
+
+#define SENSOR_HOLD         5
 
 // Bluetooth commands that we can recieve
 typedef enum {
@@ -69,8 +72,9 @@ typedef enum {
 
 // Vairables for the car
 int Accleration = 4;
+int turningAccel = 2*Accleration;
 int Deccleration = 2*Accleration;
-int BreakingPower = 4*Deccleration;
-int Distance = 35;
-int MaxSpeed = 200;
-int MaxTurningSpeed = 255;
+int BreakingPower = Deccleration;
+int MaxSpeed = 125;
+int revSpeed = 75;
+int MaxTurningSpeed = 190;
