@@ -20,10 +20,10 @@
 #define STEPPER_PUL         6
 
 // Sensor pins
-#define SENSOR0_ECHO        30
-#define SENSOR0_TRIG        31
-#define SENSOR1_ECHO        32
-#define SENSOR1_TRIG        33
+#define SENSOR0_ECHO        32
+#define SENSOR0_TRIG        33
+#define SENSOR1_ECHO        52
+#define SENSOR1_TRIG        53
 #define SENSOR2_ECHO        34
 #define SENSOR2_TRIG        35
 #define SENSOR3_ECHO        36 //back
@@ -47,11 +47,9 @@
 #define TURN_LIMIT          40
 
 //stopping distance
-#define DISTANCE            100
+#define DISTANCE            150
 #define BACK_DIST           200
-
-//car length
-#define CAR_LENGTH          80
+#define CAR_LENGTH          70
 
 #define SENSOR_HOLD         5
 
@@ -73,8 +71,8 @@ typedef enum {
 // Vairables for the car
 int Accleration = 4;
 int turningAccel = 2*Accleration;
-int Deccleration = 2*Accleration;
+int Deccleration = 8*Accleration;
 int BreakingPower = Deccleration;
-int MaxSpeed = 125;
+int MaxSpeed = 80;
 int revSpeed = 75;
-int MaxTurningSpeed = 190;
+int MaxTurningSpeed = 100;
